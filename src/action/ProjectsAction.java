@@ -53,6 +53,11 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 	public void setPast(ArrayList<DatabaseRow> past) {
 		this.past = past;
 	}
+	
+	public int test()
+	{
+		return 20;
+	}
 
 	@Override
 	public void setSession(Map<String, Object> session) {

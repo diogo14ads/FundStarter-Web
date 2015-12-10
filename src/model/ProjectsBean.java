@@ -16,7 +16,20 @@ public class ProjectsBean{
 	}
 
 	public ArrayList<DatabaseRow> getCurrentProjects() {
-		return rmi.getCurrentProjects();
+		ArrayList<DatabaseRow> current = rmi.getCurrentProjects();
+		int raised, objective, percentage;
+		
+		
+		//Calcula a percentagem obtida, para fazer a barra de progresso no jsp
+		for(int i=0;i<current.size();i++)
+		{
+			raised = Integer.parseInt(current.get(i).getColumns().get(3));
+			objective = Integer.parseInt(current.get(i).getColumns().get(4));
+			percentage = Math.round(((float)raised/objective)*100);
+			System.out.println(percentage);
+			current.get(i).getColumns().add(Integer.toString(percentage));
+		}
+		return current;
 	}
 
 	public RMIBean getRmi() {
