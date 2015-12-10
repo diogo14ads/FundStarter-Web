@@ -7,8 +7,8 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import common.DatabaseRow;
-import model.ProjectsBean;
+import common.Project;
+import model.RMIBean;
 
 public class ProjectsAction extends ActionSupport implements SessionAware {
 	
@@ -16,49 +16,43 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 	 * 
 	 */
 	private static final long serialVersionUID = -790583386762368260L;
-	private ArrayList<DatabaseRow> current;
-	private ArrayList<DatabaseRow> past;
+	private ArrayList<Project> current;
+	private ArrayList<Project> past;
 	private Map<String,Object> session;
 	
 	public String execute()
 	{
-		System.out.println("coise");
-		this.current = this.getProjectsBean().getCurrentProjects();
-		this.past = this.getProjectsBean().getPastProjects();
+		this.current = this.getRMIBean().getCurrentProjects();
+		this.past = this.getRMIBean().getPastProjects();
+		
 		return SUCCESS;
 	}
 
-	private ProjectsBean getProjectsBean() {
-		if(!this.session.containsKey("projectsBean"))
-			this.setProjectsBean(new ProjectsBean());
-		return (ProjectsBean) this.session.get("projectsBean");
+	private RMIBean getRMIBean() {
+		if(!this.session.containsKey("rmiBean"))
+			this.setRMIBean(new RMIBean());
+		return (RMIBean) this.session.get("rmiBean");
 	}
 
-	private void setProjectsBean(ProjectsBean projectsBean) {
-		this.session.put("projectsBean", projectsBean);
+	private void setRMIBean(RMIBean rmiBean) {
+		this.session.put("rmiBean", rmiBean);
 	}
 	
-	public ArrayList<DatabaseRow> getCurrent() {
+	public ArrayList<Project> getCurrent() {
 		return current;
 	}
 
-	public void setCurrent(ArrayList<DatabaseRow> current) {
+	public void setCurrent(ArrayList<Project> current) {
 		this.current = current;
 	}
 
-	public ArrayList<DatabaseRow> getPast() {
+	public ArrayList<Project> getPast() {
 		return past;
 	}
 
-	public void setPast(ArrayList<DatabaseRow> past) {
+	public void setPast(ArrayList<Project> past) {
 		this.past = past;
 	}
-	
-	public int test()
-	{
-		return 20;
-	}
-
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

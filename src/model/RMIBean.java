@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import common.DatabaseRow;
+import common.Project;
 import common.RMIInterface;
 
 public class RMIBean {
@@ -68,10 +69,10 @@ public class RMIBean {
 		}
 	}
 	
-	public ArrayList<DatabaseRow> getCurrentProjects()
+	public ArrayList<Project> getCurrentProjects()
 	{
 		try {
-			return server.currentProjectsList();
+			return toProjectArraylist(server.currentProjectsList());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -79,13 +80,38 @@ public class RMIBean {
 		}
 	}
 
-	public ArrayList<DatabaseRow> getPastProjects() {
+	public ArrayList<Project> getPastProjects() {
 		try {
-			return server.pastProjectsList();
+			return toProjectArraylist(server.pastProjectsList());
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
+		}
+	}
+	
+	public ArrayList<Project> toProjectArraylist(ArrayList<DatabaseRow> list)
+	{
+		ArrayList<Project> newList = new ArrayList<Project>();
+		TypeConverter aux;
+		
+		for(DatabaseRow row : list)
+		{
+			aux = new TypeConverter(row.getColumns());
+			newList.add(aux.toProject());
+		}
+		
+		return newList;
+	}
+
+
+	public boolean registerAccount(String name, String email, String password) {
+		try {
+			return server.register(name, email, password);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
 		}
 	}
 	

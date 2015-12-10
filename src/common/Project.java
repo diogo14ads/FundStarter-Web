@@ -8,6 +8,12 @@ public class Project {
 	private int moneyRaised;
 	private int objective;
 	private String projectDescription;
+	private int percentageComplete;
+	
+	public Project()
+	{
+		super();
+	}
 	
 	public Project(int projectId, String dateEnd, String projectName, int moneyRaised, int objective,
 			String projectDescription) {
@@ -20,6 +26,14 @@ public class Project {
 		this.projectDescription = projectDescription;
 	}
 	
+	public int getPercentageComplete() {
+		return percentageComplete;
+	}
+
+	public void setPercentageComplete(int percentageComplete) {
+		this.percentageComplete = percentageComplete;
+	}
+
 	public int getProjectId() {
 		return projectId;
 	}
@@ -55,5 +69,12 @@ public class Project {
 	}
 	public void setProjectDescription(String projectDescription) {
 		this.projectDescription = projectDescription;
+	}
+
+	@Override
+	public String toString() {
+		return "Project [projectId=" + projectId + ", dateEnd=" + dateEnd + ", projectName=" + projectName
+				+ ", moneyRaised=" + moneyRaised + ", objective=" + objective + ", projectDescription="
+				+ projectDescription + ", percentageComplete=" + percentageComplete + "]";
 	}
 }
