@@ -1,4 +1,5 @@
 <%@ taglib prefix="s" uri="/struts-tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -100,7 +101,7 @@
 
 		<div class="row">
 			<h3 class="page-header">Current Projects</h3>
-			<s:iterator value="current">
+			<c:forEach items="${rmiBean.currentProjects}" var="current">
 
 				<div class="col-md-4">
 					<div class="thumbnail">
@@ -108,29 +109,29 @@
 							alt="Imagem">
 							<div class="caption">
 								<h3>
-									<s:property value="projectName" />
+									<c:out value="${current.projectName}" />
 								</h3>
 								<p>
 									Objective:
-									<s:property value="objective" />
+									<c:out value="${current.objective}" />
 								</p>
 								<p>
 									Raised
-									<s:property value="moneyRaised" />
+									<c:out value="${current.moneyRaised}" />
 									out of
-									<s:property value="objective" />
+									<c:out value="${current.objective}" />
 									.
 								</p>
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="60"
 										aria-valuemin="0" aria-valuemax="100"
-										style="width: <s:property value='percentage'/>%; "></div>
+										style="width: <c:out value="${current.percentageComplete}" />%; "></div>
 								</div>
 							</div>
 						</a>
 					</div>
 				</div>
-			</s:iterator>
+			</c:forEach>
 
 		</div>
 		<!-- Past Project List -->

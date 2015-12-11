@@ -58,7 +58,7 @@
 
 		<div class="row">
 			<h3 class="page-header">Current Projects</h3>
-			<s:iterator value="current">
+			<s:iterator value="RMIBean.CurrentProjects">
 
 				<div class="col-md-4">
 					<div class="thumbnail">
@@ -94,7 +94,7 @@
 		</div>
 		<!-- Past Project List -->
 		<div class="row">
-			<h3 class="page-header">Current Projects</h3>
+			<h3 class="page-header">Past Projects</h3>
 			<s:iterator value="past">
 				<div class="col-md-4">
 					<div class="thumbnail">
