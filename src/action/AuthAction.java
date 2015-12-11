@@ -6,25 +6,32 @@ import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
 
-import model.AuthBean;
+import model.RMIBean;
+import model.User;
 
 public class AuthAction extends ActionSupport implements SessionAware {
 	
-	private String name, email, password;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -7477463623013154947L;
+
+	private User user;
+
 	private Map<String,Object> session;
 	
 	public String registerAccount()
 	{
-		if(this.getAuthBean().registerAccount(name,email,password))
+		System.out.println(user.toString());
+		if(this.getRMIBean().registerAccount(user.getName(),user.getEmail(),user.getPassword()))
 		{
 			session.put("loggedin", true);
-			session.put("email", email);
-			session.put("name", name);
+			session.put("email", user.getEmail());
+			session.put("name", user.getName());
 			return SUCCESS;
 		}
 		else
 			return INPUT;
-			
 	}
 	
 	public String loginAccount()
@@ -32,34 +39,19 @@ public class AuthAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
-	private AuthBean getAuthBean() {
-		if(!this.session.containsKey("authBean"))
-			this.session.put("authBean", new AuthBean());
-		return (AuthBean) this.session.get("authBean");
+
+	public User getUser() {
+		return user;
 	}
 
-	public String getName() {
-		return name;
+	public void setUser(User user) {
+		this.user = user;
 	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
+	
+	private RMIBean getRMIBean() {
+		if(!this.session.containsKey("rmiBean"))
+			this.session.put("rmiBean", new RMIBean());
+		return (RMIBean) this.session.get("rmiBean");
 	}
 
 	@Override

@@ -22,6 +22,15 @@
 		<action name="index" class="action.ProjectsAction" method="execute">
 			<result>/index.jsp</result>
 		</action>
+		
+		<action name="register" class="action.AuthAction" method="registerAccount">
+			<result name="success" type="redirectAction">/main</result>
+			<result name="input">/register.jsp</result>
+		</action>
+		
+		<action name="main">
+			<result>/main.jsp</result>
+		</action>
 	
 	</package>
 

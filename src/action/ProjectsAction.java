@@ -6,8 +6,7 @@ import java.util.Map;
 import org.apache.struts2.interceptor.SessionAware;
 
 import com.opensymphony.xwork2.ActionSupport;
-
-import common.Project;
+import model.Project;
 import model.RMIBean;
 
 public class ProjectsAction extends ActionSupport implements SessionAware {
@@ -30,14 +29,10 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 
 	private RMIBean getRMIBean() {
 		if(!this.session.containsKey("rmiBean"))
-			this.setRMIBean(new RMIBean());
+			this.session.put("rmiBean", new RMIBean());
 		return (RMIBean) this.session.get("rmiBean");
 	}
 
-	private void setRMIBean(RMIBean rmiBean) {
-		this.session.put("rmiBean", rmiBean);
-	}
-	
 	public ArrayList<Project> getCurrent() {
 		return current;
 	}

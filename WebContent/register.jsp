@@ -9,12 +9,12 @@
 </head>
 <body>
 	<s:form action="register" method="post">
-		<s:text name="Username:"></s:text>
-		<s:textfield name="Name" /> <br>
-		<s:text name="Email:"></s:text>
-		<s:textfield name="email" /> <br>
-		<s:text name="Password:"></s:text>
-		<s:password name="password" />
+		<s:text name="Name:" />
+		<s:textfield name="user.name" /><br>
+		<s:text name="Email:" />
+		<s:textfield name="user.email" /><br>
+		<s:text name="Password"/>
+		<s:password name="user.password" /><br>
 		<s:submit />
 	</s:form>
 </body>

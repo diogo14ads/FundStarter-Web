@@ -1,9 +1,7 @@
 package model;
 
 import java.util.ArrayList;
-
 import common.DatabaseRow;
-import common.Project;
 
 public class TypeConverter extends DatabaseRow {
 

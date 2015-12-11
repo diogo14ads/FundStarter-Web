@@ -8,7 +8,7 @@ public class AuthBean {
 		super();
 		this.rmi = new RMIBean();
 	}
-
+/*
 	public boolean registerAccount(String name, String email, String password) {
 		return rmi.registerAccount(name,email,password);
 	}
@@ -20,5 +20,5 @@ public class AuthBean {
 	public void setRmi(RMIBean rmi) {
 		this.rmi = rmi;
 	}
-	
+	*/
 }

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import java.util.Properties;
 
 import common.DatabaseRow;
-import common.Project;
 import common.RMIInterface;
 
 public class RMIBean {
