@@ -34,9 +34,16 @@ public class AuthAction extends ActionSupport implements SessionAware {
 			return INPUT;
 	}
 	
-	public String loginAccount()
+	public String login()
 	{
-		return SUCCESS;
+		if(this.getRMIBean().verifyLogin(user.getEmail(),user.getPassword())){
+			session.put("loggedin", true);
+			session.put("email", user.getEmail());
+			session.put("name", user.getName());
+			return SUCCESS;
+		}
+		else
+			return INPUT;
 	}
 	
 

@@ -12,6 +12,12 @@
 <link rel="stylesheet" type="text/css"
 	href="bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="bootstrap/css/style.css">
+
+<!-- TODO arranjar isto, estou a importar destes endereções em vez dos ficheiros locais -->
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+  
 </head>
 <body>
 	<div class="container">
@@ -26,7 +32,43 @@
 			</div>
 			<div class="col-md-1">
 				<ul class="nav navbar-nav">
-					<li><a href="#">Login</a></li>
+					<!--  <li><a href="#">Login</a></li>-->
+					<!-- Button trigger modal -->
+					<button type="button" class="btn btn-primary btn-lg"
+						data-toggle="modal" data-target="#myModal">Login</button>
+
+					<!-- Modal -->
+					<div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+						aria-labelledby="myModalLabel">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 class="modal-title" id="myModalLabel">Login</h4>
+								</div>
+								<s:form action="login" method="post">
+									<div class="modal-body">
+										<s:text name="Email" />
+										<br>
+										<s:textfield name="user.email" />
+										<br>
+										<s:text name="Password" />
+										<br>
+										<s:password name="user.password" />
+										<br>
+									</div>
+									<div class="modal-footer">
+										<s:submit cssClass="btn btn-primary" value="Login"/>
+										<button type="button" class="btn btn-default"
+											data-dismiss="modal">Close</button>
+									</div>
+								</s:form>
+							</div>
+						</div>
+					</div>
 				</ul>
 			</div>
 			<div class="col-md-1">
@@ -82,8 +124,7 @@
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="60"
 										aria-valuemin="0" aria-valuemax="100"
-										style="width: <s:property value='percentage'/>%; ">
-									</div>
+										style="width: <s:property value='percentage'/>%; "></div>
 								</div>
 							</div>
 						</a>
@@ -94,7 +135,7 @@
 		</div>
 		<!-- Past Project List -->
 		<div class="row">
-			<h3 class="page-header">Current Projects</h3>
+			<h3 class="page-header">Past Projects</h3>
 			<s:iterator value="past">
 				<div class="col-md-4">
 					<div class="thumbnail">
@@ -118,8 +159,7 @@
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="60"
 										aria-valuemin="0" aria-valuemax="100"
-										style="width: <s:property value='percentage'/>%; ">
-									</div>
+										style="width: <s:property value='percentage'/>%; "></div>
 								</div>
 							</div>
 						</a>

@@ -113,5 +113,16 @@ public class RMIBean {
 			return false;
 		}
 	}
+
+
+	public boolean verifyLogin(String email, String password) {
+		try {
+			return server.login(email, password);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
 	
 }
