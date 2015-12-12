@@ -28,5 +28,37 @@ public class TypeConverter extends DatabaseRow {
 		return proj;
 
 	}
+	
+	public Reward toReward()
+	{
+		printColumns(this);
+		Reward reward = new Reward();
+		reward.setDescription(super.getColumns().get(0));
+		reward.setName(super.getColumns().get(1));
+		reward.setValue(Integer.parseInt(this.getColumns().get(2)));
+		
+		if(super.getColumns().get(3).equals("t"))
+			reward.setProjectActive(true);
+		else
+			reward.setProjectActive(false);
+		
+		reward.setPledgeId(Integer.parseInt(this.getColumns().get(4)));
+		
+
+		if(super.getColumns().get(5).equals("t"))
+			reward.setSuccessfull(true);
+		else
+			reward.setSuccessfull(false);
+		
+		return reward;
+	}
+	
+	public void printColumns(DatabaseRow row)
+	{
+		for(int i = 0 ; i<row.getColumns().size() ; i++)
+		{
+			System.out.println(i+" : "+row.getColumns().get(i));
+		}
+	}
 
 }

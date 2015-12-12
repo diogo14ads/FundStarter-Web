@@ -125,4 +125,39 @@ public class RMIBean {
 		}
 	}
 	
+	public int checkBalance(String email)
+	{
+		try {
+			return server.checkBalance(email);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return -1;
+		}
+	}
+	
+	public ArrayList<Reward> getMyRewards(String email)
+	{
+		try {
+			return toRewaradArraylist(server.getMyRewards(email));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ArrayList<Reward> toRewaradArraylist(ArrayList<DatabaseRow> list)
+	{
+		ArrayList<Reward> newList = new ArrayList<Reward>();
+		TypeConverter aux;
+		
+		for(DatabaseRow row : list)
+		{
+			aux = new TypeConverter(row.getColumns());
+			newList.add(aux.toReward());
+		}
+		
+		return newList;
+	}
 }

@@ -10,6 +10,9 @@
 	<constant name="struts.ui.theme" value="simple"/>
 	
 	<package name="fundstarter" extends="struts-default">
+	
+		
+		<default-action-ref name="index" />
 		
 		<global-results>
 			<result name="error">/error.jsp</result>
@@ -18,6 +21,7 @@
 		<global-exception-mappings>
 			<exception-mapping exception="java.lang.Exception" result="error"/>
 		</global-exception-mappings>
+		
 		
 		<action name="index" class="action.ProjectsAction" method="execute">
 			<result>/index.jsp</result>
@@ -35,6 +39,18 @@
 		
 		<action name="main" class="action.ProjectsAction" method="execute">
 			<result>/main.jsp</result>
+		</action>
+		
+		<action name="myRewards" class="action.RewardsAction" method="execute">
+			<result>/myaccount.jsp</result>
+		</action>
+		
+		<action name="checkBalance" class="action.BalanceAction" method="execute">
+			<result>/myaccount.jsp</result>
+		</action>
+		
+		<action name="myAccount">
+			<result >/myaccount.jsp</result>
 		</action>
 	
 	</package>

@@ -137,36 +137,37 @@
 		<!-- Past Project List -->
 		<div class="row">
 			<h3 class="page-header">Past Projects</h3>
-			<s:iterator value="past">
+			<c:forEach items="${rmiBean.pastProjects}" var="current">
+
 				<div class="col-md-4">
 					<div class="thumbnail">
 						<a href="#" class=""> <img src="http://placecage.com/300/300"
 							alt="Imagem">
 							<div class="caption">
 								<h3>
-									<s:property value="projectName" />
+									<c:out value="${current.projectName}" />
 								</h3>
 								<p>
 									Objective:
-									<s:property value="objective" />
+									<c:out value="${current.objective}" />
 								</p>
 								<p>
 									Raised
-									<s:property value="moneyRaised" />
+									<c:out value="${current.moneyRaised}" />
 									out of
-									<s:property value="objective" />
+									<c:out value="${current.objective}" />
 									.
 								</p>
 								<div class="progress">
 									<div class="progress-bar" role="progressbar" aria-valuenow="60"
 										aria-valuemin="0" aria-valuemax="100"
-										style="width: <s:property value='percentage'/>%; "></div>
+										style="width: <c:out value="${current.percentageComplete}" />%; "></div>
 								</div>
 							</div>
 						</a>
 					</div>
 				</div>
-			</s:iterator>
+			</c:forEach>
 		</div>
 	</div>
 </body>
