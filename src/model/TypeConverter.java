@@ -31,7 +31,6 @@ public class TypeConverter extends DatabaseRow {
 	
 	public Reward toReward()
 	{
-		printColumns(this);
 		Reward reward = new Reward();
 		reward.setDescription(super.getColumns().get(0));
 		reward.setName(super.getColumns().get(1));
@@ -53,11 +52,12 @@ public class TypeConverter extends DatabaseRow {
 		return reward;
 	}
 	
-	public void printColumns(DatabaseRow row)
+	//só para debug, para ver o que está em cada um dos elementos do arraylist
+	public void printColumns()
 	{
-		for(int i = 0 ; i<row.getColumns().size() ; i++)
+		for(int i = 0 ; i<this.getColumns().size() ; i++)
 		{
-			System.out.println(i+" : "+row.getColumns().get(i));
+			System.out.println(i+" : "+this.getColumns().get(i));
 		}
 	}
 

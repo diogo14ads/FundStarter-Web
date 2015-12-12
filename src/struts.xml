@@ -49,6 +49,15 @@
 			<result>/myaccount.jsp</result>
 		</action>
 		
+		<action name="createProject" class="action.ProjectsAction" method="createProject">
+			<result name="success" type="redirectAction">/main</result>
+			<result name="input">/createproject.jsp</result>
+		</action>
+	
+	</package>
+	
+	<package name="redirectActions">
+	
 		<action name="myAccount">
 			<result >/myaccount.jsp</result>
 		</action>

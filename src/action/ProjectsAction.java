@@ -18,6 +18,7 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 	private ArrayList<Project> current;
 	private ArrayList<Project> past;
 	private Map<String,Object> session;
+	private Project newProject;
 	
 	public String execute()
 	{
@@ -25,6 +26,16 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 		this.past = this.getRMIBean().getPastProjects();
 		
 		return SUCCESS;
+	}
+	
+	public String createProject()
+	{
+		boolean success;
+		success = this.getRMIBean().createNewProject(newProject,(String) this.session.get("email"));
+		if(success)
+			return SUCCESS;
+		else
+			return INPUT;
 	}
 
 	private RMIBean getRMIBean() {
@@ -48,6 +59,15 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 	public void setPast(ArrayList<Project> past) {
 		this.past = past;
 	}
+	
+	public Project getNewProject() {
+		return newProject;
+	}
+
+	public void setNewProject(Project newProject) {
+		this.newProject = newProject;
+	}
+
 	@Override
 	public void setSession(Map<String, Object> session) {
 		this.session = session;

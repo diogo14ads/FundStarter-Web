@@ -27,8 +27,8 @@
 			</div>
 			<div class="col-md-2">
 				<ul class="nav navbar-nav">
-					<li class="active"><a class="navbar-brand mark" href="myAccount.action">My Account</a>
-					</li>
+					<li class="active"><a class="navbar-brand mark"
+						href="myAccount.action">My Account</a></li>
 					<!-- <li><a href="#">My Account</a></li> -->
 				</ul>
 			</div>
@@ -41,24 +41,29 @@
 		</div>
 
 		<div class="row">
-			<a href="checkBalance.action">Check Balance</a>
-			<p> Balance: <s:property value="balance"/> $</p>
-			<a href="myRewards.action">Check Rewards</a>
+			<a href="createproject.jsp">New Project</a> <br>
+			<a href="checkBalance.action">Check Balance</a> <br> 
+			Balance:
+			<h2>
+				<s:property value="balance" /> $
+			</h2>
+			<hr>
+			<a href="myRewards.action">Check Rewards</a> <br>
 			<s:iterator value="myRewards">
 
 				<div class="col-md-4">
 					<div class="thumbnail">
-							<div class="caption">
-								<h3>
-									<s:property value="name"/>
-								</h3>
-							</div>
+						<div class="caption">
+							<h3>
+								<s:property value="name" />
+							</h3>
+						</div>
 					</div>
 				</div>
-				</s:iterator>
-			
-			
-			
+			</s:iterator>
+
+
+
 		</div>
 	</div>
 </body>

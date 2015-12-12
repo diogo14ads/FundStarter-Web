@@ -160,4 +160,21 @@ public class RMIBean {
 		
 		return newList;
 	}
+
+
+	public boolean createNewProject(Project newProject, String creatorEmail) {
+		
+		boolean success;
+		//TODO criar validate para verificar os dados
+		try {
+			success = this.server.createProject(newProject.getProjectName(), newProject.getProjectDescription(), newProject.getDateEnd()
+					, Integer.toString(newProject.getObjective()), creatorEmail);
+			return success;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 }
