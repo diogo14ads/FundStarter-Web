@@ -78,6 +78,10 @@
 		<action name="cancelProject" class="action.ManageProjectAction" method="cancelProject">
 			<result name="success" type="redirectAction">/main</result>
 		</action>
+		
+		<action name="addLevel" class="action.ManageProjectAction" method="addRewardLevel">
+			<result name="success" type="redirectAction">/myAccount</result>
+		</action>
 	
 	</package>
 

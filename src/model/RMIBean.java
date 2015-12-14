@@ -207,6 +207,17 @@ public class RMIBean {
 		
 	}
 	
+	public ArrayList<Reward> getLevelRewards(int projectId, int levelId)
+	{
+		try {
+			return toRewaradArraylist(this.server.levelRewardsList(projectId, levelId));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
 	private ArrayList<Level> toLevelArraylist(ArrayList<DatabaseRow> list) {
 		ArrayList<Level> newList = new ArrayList<Level>();
 		TypeConverter aux;
@@ -286,6 +297,19 @@ public class RMIBean {
 			e.printStackTrace();
 			return false;
 		}
+	}
+
+
+	public boolean addRewardLevel(int projectId, int objective) {
+		try {
+			System.out.println("bode");
+			return this.server.addLevel(projectId, objective);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
 	}
 	
 	

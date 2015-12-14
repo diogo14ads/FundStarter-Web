@@ -23,6 +23,8 @@ public class ManageProjectAction extends ActionSupport implements SessionAware {
 	private int projectId;
 	private ArrayList<Level> projectLevels;
 	
+	private int objective;
+	
 	public String myProjects()
 	{
 		myProjects = this.getRMIBean().getMyProjects((String) this.session.get("email"));
@@ -43,11 +45,20 @@ public class ManageProjectAction extends ActionSupport implements SessionAware {
 		return SUCCESS;
 	}
 	
+	public String addRewardLevel()
+	{
+		this.getRMIBean().addRewardLevel(projectId,objective);
+		return SUCCESS;
+	}
+
+	/*----------------------------------------------------------------------------------------------*/
+	
 	private RMIBean getRMIBean() {
 		if(!this.session.containsKey("rmiBean"))
 			this.session.put("rmiBean", new RMIBean());
 		return (RMIBean) this.session.get("rmiBean");
 	}
+	
 
 	@Override
 	public void setSession(Map<String, Object> session) {
@@ -80,6 +91,14 @@ public class ManageProjectAction extends ActionSupport implements SessionAware {
 
 	public void setProjectLevels(ArrayList<Level> projectLevels) {
 		this.projectLevels = projectLevels;
+	}
+
+	public int getObjective() {
+		return objective;
+	}
+
+	public void setObjective(int objective) {
+		this.objective = objective;
 	}
 
 }

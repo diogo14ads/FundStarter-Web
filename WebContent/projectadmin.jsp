@@ -37,11 +37,34 @@
 			</div>
 			</nav>
 		</div>
-		
-		<s:iterator value="projectLevels">
-			<s:property value="objective"/><br>
-		</s:iterator>
 
+
+		<c:forEach items="${rmiBean.getProjectLevels(projectId)}" var="level">
+			<div class="thumbnail">
+				<div class="caption">
+					<h3>
+						<c:out value="${level.objective}"></c:out>
+						<br>
+						<c:forEach
+							items="${rmiBean.getLevelRewards(projectId, level.levelId)}"
+							var="reward">
+							<a><c:out value="${reward.description}"></c:out><br></a>
+						</c:forEach>
+					</h3>
+				</div>
+			</div>
+		</c:forEach>
+		<br>
+		<hr>
+		
+		<s:form action="addLevel" method="post">
+			<s:text name="Amount needed to reach level:" />
+			<s:textfield name="objective"/>
+			<s:hidden name="projectId" />
+			<s:submit key="Add Level" />
+		</s:form>
+		
+		<hr>
 		<a href="cancelProject.action?projectId=<s:property value="projectId"/>" > Cancel Project</a>
 		
 	</div>
