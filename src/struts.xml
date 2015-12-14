@@ -53,13 +53,18 @@
 			<result name="success" type="redirectAction">/main</result>
 			<result name="input">/createproject.jsp</result>
 		</action>
-	
-	</package>
-	
-	<package name="redirectActions">
-	
+		
 		<action name="myAccount">
 			<result >/myaccount.jsp</result>
+		</action>
+		
+		<action name="projectPage" class="action.ProjectPageAction" method="execute">
+			<result name="input">/projectpage.jsp</result>
+		</action>
+		
+		<action name="makePledge" class="action.RewardsAction" method="makePledge">
+			<result name="success" type="redirectAction">/main</result>
+			<result name="input" type="redirectAction">/myAccount</result>
 		</action>
 	
 	</package>

@@ -17,8 +17,11 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 	private static final long serialVersionUID = -790583386762368260L;
 	private ArrayList<Project> current;
 	private ArrayList<Project> past;
+	
+
+	private Project project;
+	
 	private Map<String,Object> session;
-	private Project newProject;
 	
 	public String execute()
 	{
@@ -31,7 +34,7 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 	public String createProject()
 	{
 		boolean success;
-		success = this.getRMIBean().createNewProject(newProject,(String) this.session.get("email"));
+		success = this.getRMIBean().createNewProject(project,(String) this.session.get("email"));
 		if(success)
 			return SUCCESS;
 		else
@@ -60,12 +63,12 @@ public class ProjectsAction extends ActionSupport implements SessionAware {
 		this.past = past;
 	}
 	
-	public Project getNewProject() {
-		return newProject;
+	public Project getProject() {
+		return project;
 	}
 
-	public void setNewProject(Project newProject) {
-		this.newProject = newProject;
+	public void setProject(Project project) {
+		this.project = project;
 	}
 
 	@Override

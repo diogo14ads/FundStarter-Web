@@ -21,15 +21,13 @@
 			<nav class="navbar navbar-inverse col-md-12">
 			<div class="col-md-8">
 				<ul class="nav navbar-nav">
-					<li class="active"><a class="navbar-brand mark" href="#">FundStarter</a>
+					<li class="active"><a class="navbar-brand" href="#">FundStarter</a>
 					</li>
 				</ul>
 			</div>
 			<div class="col-md-2">
 				<ul class="nav navbar-nav">
-					<li class="active"><a class="navbar-brand mark"
-						href="myAccount.action">My Account</a></li>
-					<!-- <li><a href="#">My Account</a></li> -->
+					<li><a href="myAccount.action">My Account</a></li>
 				</ul>
 			</div>
 			<div class="col-md-2">
@@ -39,33 +37,29 @@
 			</div>
 			</nav>
 		</div>
-
-		<div class="row">
-			<a href="createproject.jsp">New Project</a> <br>
-			<a href="createproject.jsp">Manage Projects</a> <br>
-			<a href="checkBalance.action">Check Balance</a> <br> 
-			Balance:
-			<h2>
-				<s:property value="balance" /> $
-			</h2>
-			<hr>
-			<a href="myRewards.action">Check Rewards</a> <br>
-			<s:iterator value="myRewards">
-
-				<div class="col-md-4">
-					<div class="thumbnail">
-						<div class="caption">
-							<h3>
-								<s:property value="description" />
-							</h3>
+			<s:iterator value="activeRewards">
+					<div class="col-md-4">
+						<div class="thumbnail">
+							<div class="caption">
+									<s:property value="description" />
+									(<s:property value="value" />
+									$)
+									
+									<!-- <a href="<s:url action="pledge"/>?rewardId=${rewardId}" class="">Pledge</a> -->
+									
+									<s:form action="makePledge" method="post">
+										<s:hidden name="rewardId" />
+										<s:submit value="Pledge"/>
+									</s:form>
+									<br>
+									
+							</div>
 						</div>
 					</div>
-				</div>
+				
 			</s:iterator>
-
-
-
-		</div>
+		<c:out value="${project.moneyRaised}" />$ / <c:out value="${project.objective}" />$ 
+		
 	</div>
 </body>
 </html>

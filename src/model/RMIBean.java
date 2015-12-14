@@ -89,6 +89,20 @@ public class RMIBean {
 		}
 	}
 	
+	//podia criar esta função no servidor, mas não quero mexer no código do projecto anterior
+	public Project getProject(int projectId)
+	{
+		ArrayList<Project> list = getCurrentProjects();
+		
+		for(Project curr : list)
+		{
+			if(curr.getProjectId() == projectId)
+				return curr;
+		}
+		
+		return null;
+	}
+	
 	public ArrayList<Project> toProjectArraylist(ArrayList<DatabaseRow> list)
 	{
 		ArrayList<Project> newList = new ArrayList<Project>();
@@ -136,15 +150,40 @@ public class RMIBean {
 		}
 	}
 	
-	public ArrayList<Reward> getMyRewards(String email)
+	public ArrayList<MyReward> getMyRewards(String email)
 	{
 		try {
-			return toRewaradArraylist(server.getMyRewards(email));
+			return toMyRewaradArraylist(server.getMyRewards(email));
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public ArrayList<Reward> getActiveRewards(int projectId)
+	{
+		try {
+			return toRewaradArraylist(server.activeRewardsList(projectId));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	public ArrayList<MyReward> toMyRewaradArraylist(ArrayList<DatabaseRow> list)
+	{
+		ArrayList<MyReward> newList = new ArrayList<MyReward>();
+		TypeConverter aux;
+		
+		for(DatabaseRow row : list)
+		{
+			aux = new TypeConverter(row.getColumns());
+			newList.add(aux.toMyReward());
+		}
+		
+		return newList;
 	}
 	
 	public ArrayList<Reward> toRewaradArraylist(ArrayList<DatabaseRow> list)
@@ -177,4 +216,17 @@ public class RMIBean {
 		}
 		
 	}
+	
+	public boolean pledge(int rewardId, String email)
+	{
+		try {
+			return this.server.buyReward(rewardId, email);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	
 }

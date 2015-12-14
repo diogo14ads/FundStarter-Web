@@ -29,27 +29,39 @@ public class TypeConverter extends DatabaseRow {
 
 	}
 	
-	public Reward toReward()
+	//contem informaçao sobre o pledge, e do seu estado
+	public MyReward toMyReward()
 	{
-		Reward reward = new Reward();
+		MyReward reward = new MyReward();
 		reward.setDescription(super.getColumns().get(0));
-		reward.setName(super.getColumns().get(1));
+		reward.setProjectName(super.getColumns().get(1));
 		reward.setValue(Integer.parseInt(this.getColumns().get(2)));
-		
+
 		if(super.getColumns().get(3).equals("t"))
 			reward.setProjectActive(true);
 		else
 			reward.setProjectActive(false);
-		
+
 		reward.setPledgeId(Integer.parseInt(this.getColumns().get(4)));
-		
+
 
 		if(super.getColumns().get(5).equals("t"))
 			reward.setSuccessfull(true);
 		else
 			reward.setSuccessfull(false);
+		return reward;
+	}
+
+	//contem so informaçao sobre a reward
+	public Reward toReward()
+	{
+		Reward reward = new Reward();
+		reward.setRewardId(Integer.parseInt(super.getColumns().get(0)));
+		reward.setDescription(super.getColumns().get(1));
+		reward.setValue(Integer.parseInt(this.getColumns().get(2)));
 		
 		return reward;
+		
 	}
 	
 	//só para debug, para ver o que está em cada um dos elementos do arraylist

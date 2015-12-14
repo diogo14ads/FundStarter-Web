@@ -63,7 +63,7 @@
 
 				<div class="col-md-4">
 					<div class="thumbnail">
-						<a href="#" class=""> <img src="http://placecage.com/300/300"
+						<a href="<s:url action="projectPage"/>?projectId=${current.projectId}" class=""> <img src="http://unsplash.it/300/300?random"
 							alt="Imagem">
 							<div class="caption">
 								<h3>
@@ -98,7 +98,7 @@
 
 				<div class="col-md-4">
 					<div class="thumbnail">
-						<a href="#" class=""> <img src="http://placecage.com/300/300"
+						<a href="projectPage.action?project=${current}" class=""> <img src="http://lorempixel.com/300/300/technics"
 							alt="Imagem">
 							<div class="caption">
 								<h3>
