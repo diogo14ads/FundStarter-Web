@@ -89,6 +89,18 @@ public class RMIBean {
 		}
 	}
 	
+	public ArrayList<Project> getMyProjects(String email)
+	{
+		try {
+			return toProjectNameIdArraylist(this.server.myProjectsList(email));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	
 	//podia criar esta função no servidor, mas não quero mexer no código do projecto anterior
 	public Project getProject(int projectId)
 	{
@@ -101,6 +113,19 @@ public class RMIBean {
 		}
 		
 		return null;
+	}
+	public ArrayList<Project> toProjectNameIdArraylist(ArrayList<DatabaseRow> list)
+	{
+		ArrayList<Project> newList = new ArrayList<Project>();
+		TypeConverter aux;
+		
+		for(DatabaseRow row : list)
+		{
+			aux = new TypeConverter(row.getColumns());
+			newList.add(aux.toProjectNameId());
+		}
+		
+		return newList;
 	}
 	
 	public ArrayList<Project> toProjectArraylist(ArrayList<DatabaseRow> list)
@@ -116,7 +141,6 @@ public class RMIBean {
 		
 		return newList;
 	}
-
 
 	public boolean registerAccount(String name, String email, String password) {
 		try {
@@ -172,6 +196,31 @@ public class RMIBean {
 		}
 	}
 	
+	public ArrayList<Level> getProjectLevels(int projectId) {
+		try {
+			return toLevelArraylist(this.server.projectLevelsList(projectId));
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	private ArrayList<Level> toLevelArraylist(ArrayList<DatabaseRow> list) {
+		ArrayList<Level> newList = new ArrayList<Level>();
+		TypeConverter aux;
+		
+		for(DatabaseRow row : list)
+		{
+			aux = new TypeConverter(row.getColumns());
+			newList.add(aux.toLevel());
+		}
+		
+		return newList;
+	}
+
+
 	public ArrayList<MyReward> toMyRewaradArraylist(ArrayList<DatabaseRow> list)
 	{
 		ArrayList<MyReward> newList = new ArrayList<MyReward>();
@@ -221,6 +270,17 @@ public class RMIBean {
 	{
 		try {
 			return this.server.buyReward(rewardId, email);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
+	public boolean cancelProject(int projectId) {
+		try {
+			return this.server.cancelProject(projectId);
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

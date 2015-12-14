@@ -66,6 +66,18 @@
 			<result name="success" type="redirectAction">/main</result>
 			<result name="input" type="redirectAction">/myAccount</result>
 		</action>
+		
+		<action name="myProjects" class="action.ManageProjectAction" method="myProjects">
+			<result name="success">/chooseproject.jsp</result>
+		</action>
+		
+		<action name="manageProject" class="action.ManageProjectAction" method="manage">
+			<result name="success">/projectadmin.jsp</result>
+		</action>
+		
+		<action name="cancelProject" class="action.ManageProjectAction" method="cancelProject">
+			<result name="success" type="redirectAction">/main</result>
+		</action>
 	
 	</package>
 

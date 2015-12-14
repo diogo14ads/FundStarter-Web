@@ -29,6 +29,16 @@ public class TypeConverter extends DatabaseRow {
 
 	}
 	
+	//Só tem o nome e o ID do projecto
+	public Project toProjectNameId()
+	{
+		Project proj = new Project();
+		proj.setProjectId(Integer.parseInt(super.getColumns().get(0)));
+		proj.setProjectName(super.getColumns().get(1));
+		
+		return proj;
+	}
+	
 	//contem informaçao sobre o pledge, e do seu estado
 	public MyReward toMyReward()
 	{
@@ -61,6 +71,16 @@ public class TypeConverter extends DatabaseRow {
 		reward.setValue(Integer.parseInt(this.getColumns().get(2)));
 		
 		return reward;
+		
+	}
+	
+	public Level toLevel()
+	{
+		Level level = new Level();
+		level.setLevelId(Integer.parseInt(super.getColumns().get(0)));
+		level.setObjective(Integer.parseInt(super.getColumns().get(1)));
+		
+		return level;
 		
 	}
 	
