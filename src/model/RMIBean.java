@@ -8,6 +8,7 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Properties;
 
 import common.DatabaseRow;
@@ -109,7 +110,10 @@ public class RMIBean {
 		for(Project curr : list)
 		{
 			if(curr.getProjectId() == projectId)
+			{
+				System.out.println(curr.toString());
 				return curr;
+			}
 		}
 		
 		return null;
@@ -310,6 +314,79 @@ public class RMIBean {
 			return false;
 		}
 		
+	}
+
+
+	public boolean removeRewardLevel(int levelId) {
+		try {
+			return this.server.removeLevel(levelId);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+
+
+	public boolean addAdministrator(int projectId, String email) {
+		try {
+			return this.server.addAdministrator(projectId, email);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+
+
+	public boolean giveawayReward(int giveawayPledgeId, String recepientEmail) {
+		try {
+			return this.server.giveawayReward(giveawayPledgeId, recepientEmail);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
+	
+	public boolean removeReward(int rewardId)
+	{
+		try {
+			System.out.println(rewardId);
+			return this.server.removeReward(rewardId);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public boolean addReward(int projectId, int levelId, String description,int value)
+	{
+		try {
+			return this.server.addReward(projectId, levelId, description, value);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+	}
+
+
+	public HashMap<Level, ArrayList<Reward>> getExtraLevels(int projectId) {
+		ArrayList<Level> extraLevels = this.getProjectLevels(projectId);
+		HashMap<Level, ArrayList<Reward>> map = new HashMap<Level, ArrayList<Reward>>();
+		
+		for(Level level: extraLevels)
+		{
+			if(level.getLevelId()!=0)
+				map.put(level, this.getLevelRewards(projectId, level.getLevelId()));
+		}
+		
+		return map;
 	}
 	
 	

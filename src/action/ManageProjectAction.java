@@ -25,6 +25,10 @@ public class ManageProjectAction extends ActionSupport implements SessionAware {
 	
 	private int objective;
 	
+	private int levelId;
+	
+	private String newAdmin;
+	
 	public String myProjects()
 	{
 		myProjects = this.getRMIBean().getMyProjects((String) this.session.get("email"));
@@ -50,8 +54,21 @@ public class ManageProjectAction extends ActionSupport implements SessionAware {
 		this.getRMIBean().addRewardLevel(projectId,objective);
 		return SUCCESS;
 	}
+	
+	public String removeRewardLevel()
+	{
+		//TODO adicionar validate, não pode ser eliminado reward com levelId=0
+		this.getRMIBean().removeRewardLevel(levelId);
+		return SUCCESS;
+	}
+	
+	public String addAdministrator()
+	{
+		this.getRMIBean().addAdministrator(projectId,newAdmin);
+		return SUCCESS;
+	}
 
-	/*----------------------------------------------------------------------------------------------*/
+	/*-----------------------------------SETTERS and GETTERS-----------------------------------------------------------*/
 	
 	private RMIBean getRMIBean() {
 		if(!this.session.containsKey("rmiBean"))
@@ -101,4 +118,19 @@ public class ManageProjectAction extends ActionSupport implements SessionAware {
 		this.objective = objective;
 	}
 
+	public int getLevelId() {
+		return levelId;
+	}
+
+	public void setLevelId(int levelId) {
+		this.levelId = levelId;
+	}
+
+	public String getNewAdmin() {
+		return newAdmin;
+	}
+
+	public void setNewAdmin(String newAdmin) {
+		this.newAdmin = newAdmin;
+	}
 }

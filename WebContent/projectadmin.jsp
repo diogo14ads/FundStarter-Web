@@ -21,7 +21,7 @@
 			<nav class="navbar navbar-inverse col-md-12">
 			<div class="col-md-8">
 				<ul class="nav navbar-nav">
-					<li class="active"><a class="navbar-brand" href="#">FundStarter</a>
+					<li class="active"><a class="navbar-brand" href="main.action">FundStarter</a>
 					</li>
 				</ul>
 			</div>
@@ -44,13 +44,30 @@
 				<div class="caption">
 					<h3>
 						<c:out value="${level.objective}"></c:out>
-						<br>
-						<c:forEach
-							items="${rmiBean.getLevelRewards(projectId, level.levelId)}"
-							var="reward">
-							<a><c:out value="${reward.description}"></c:out><br></a>
-						</c:forEach>
 					</h3>
+					<br>
+					<c:forEach
+						items="${rmiBean.getLevelRewards(projectId, level.levelId)}"
+						var="reward">
+						<div class="thumbnail">
+							<div class="caption">
+								<a><c:out value="${reward.description}"></c:out><br></a>
+								<s:form action="removeReward" method="post">
+									<input type="hidden" name="rewardId" value="${reward.rewardId}" />
+									<s:submit key="Remove" />
+								</s:form>
+							</div>
+
+						</div>
+
+					</c:forEach>
+
+					<c:if test="${level.levelId != 0}">
+						<s:form action="removeLevel" method="post">
+							<input type="hidden" name="levelId" value="${level.levelId}" />
+							<s:submit key="Remove" />
+						</s:form>
+					</c:if>
 				</div>
 			</div>
 		</c:forEach>
@@ -65,7 +82,37 @@
 		</s:form>
 		
 		<hr>
+		
+		<s:form action="addAdministrator" method="post">
+			<s:text name="New administrator email:" />
+			<s:textfield name="newAdmin" />
+			<s:hidden name="projectId" />
+			<s:submit key="Add Admin" />
+		</s:form>
+		
+		<hr>
 		<a href="cancelProject.action?projectId=<s:property value="projectId"/>" > Cancel Project</a>
+		
+		<hr>
+		
+		<h3>New Reward</h3>
+		<s:form action="addReward" method="post">
+			<s:text name="Description:" />
+			<s:textfield name="description" />
+			<s:text name="value:" />
+			<s:textfield name="value" />
+			
+			
+			<select name="levelId">
+				<c:forEach items="${rmiBean.getProjectLevels(projectId)}" var="level">
+						
+						<option value="${level.levelId}" >${level.objective}</option>					
+				</c:forEach>
+			</select>
+			
+			<s:hidden name="projectId" />
+			<s:submit key="Add Reward" />
+		</s:form>
 		
 	</div>
 </body>

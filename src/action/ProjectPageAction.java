@@ -1,6 +1,7 @@
 package action;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
@@ -10,6 +11,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import model.Project;
 import model.RMIBean;
 import model.Reward;
+import model.Level;
 import model.MyReward;
 
 public class ProjectPageAction extends ActionSupport implements SessionAware {
@@ -22,11 +24,14 @@ public class ProjectPageAction extends ActionSupport implements SessionAware {
 	private Project project;
 	private ArrayList<Reward> activeRewards;
 	private Map<String,Object> session;
+	
+	private HashMap<Level, ArrayList<Reward>> extraLevels;
 
 	public String execute()
 	{
 		activeRewards = this.getRMIBean().getActiveRewards(projectId);
 		project = this.getRMIBean().getProject(projectId);
+		extraLevels = this.getRMIBean().getExtraLevels(projectId);
 		return INPUT;
 	}
 	
@@ -68,6 +73,14 @@ public class ProjectPageAction extends ActionSupport implements SessionAware {
 
 	public void setProject(Project project) {
 		this.project = project;
+	}
+
+	public HashMap<Level, ArrayList<Reward>> getExtraLevels() {
+		return extraLevels;
+	}
+
+	public void setExtraLevels(HashMap<Level, ArrayList<Reward>> extraLevels) {
+		this.extraLevels = extraLevels;
 	}
 
 

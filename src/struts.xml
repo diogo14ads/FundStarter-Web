@@ -82,6 +82,25 @@
 		<action name="addLevel" class="action.ManageProjectAction" method="addRewardLevel">
 			<result name="success" type="redirectAction">/myAccount</result>
 		</action>
+		
+		<action name="removeLevel" class="action.ManageProjectAction" method="removeRewardLevel">
+			<result name="success" type="redirectAction">/myAccount</result>
+		</action>
+		
+		<action name="addAdministrator" class="action.ManageProjectAction" method="addAdministrator">
+			<result name="success" type="redirectAction">/myAccount</result>
+		</action>
+		
+		<action name="giveawayReward" class="action.RewardsAction" method="giveawayReward">
+			<result name="success" type="redirectAction">/myAccount</result>
+		</action>
+		
+		<action name="removeReward" class="action.RewardsAction" method="removeReward">
+			<result name="success" type="redirectAction">/myAccount</result>
+		</action>
+		<action name="addReward" class="action.RewardsAction" method="addReward">
+			<result name="success" type="redirectAction">/myAccount</result>
+		</action>
 	
 	</package>
 

@@ -27,7 +27,7 @@
 			<nav class="navbar navbar-inverse col-md-12">
 			<div class="col-md-10">
 				<ul class="nav navbar-nav">
-					<li class="active"><a class="navbar-brand" href="#">FundStarter</a>
+					<li class="active"><a class="navbar-brand" href="main.action">FundStarter</a>
 					</li>
 				</ul>
 			</div>

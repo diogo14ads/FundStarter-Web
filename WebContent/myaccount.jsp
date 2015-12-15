@@ -21,7 +21,7 @@
 			<nav class="navbar navbar-inverse col-md-12">
 			<div class="col-md-8">
 				<ul class="nav navbar-nav">
-					<li class="active"><a class="navbar-brand mark" href="#">FundStarter</a>
+					<li class="active"><a class="navbar-brand mark" href="main.action">FundStarter</a>
 					</li>
 				</ul>
 			</div>
@@ -58,6 +58,12 @@
 							<h3>
 								<s:property value="description" />
 							</h3>
+							<s:form action="giveawayReward">
+								<s:text name="Recepient Email" />
+								<s:textfield name="recepientEmail" />
+								<s:hidden name="pledgeId"></s:hidden>
+								<s:submit key="Giveaway" />
+							</s:form>
 						</div>
 					</div>
 				</div>

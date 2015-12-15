@@ -21,10 +21,17 @@ public class RewardsAction extends ActionSupport implements SessionAware{
 	
 	private int rewardId;
 	
+	private int pledgeId;
+	private String recepientEmail;
+	
+	private int projectId;
+	private int levelId;
+	private String description;
+	private int value;
+	
 	public String execute()
 	{
 		myRewards = this.getRMIBean().getMyRewards((String) session.get("email"));
-		System.out.println(myRewards.get(0));
 		return SUCCESS;
 	}
 	
@@ -36,6 +43,27 @@ public class RewardsAction extends ActionSupport implements SessionAware{
 			return ERROR;
 	}
 	
+	public String giveawayReward()
+	{
+		System.out.println(pledgeId);
+		System.out.println(recepientEmail);
+		this.getRMIBean().giveawayReward(pledgeId,recepientEmail);
+		return SUCCESS;
+	}
+	
+	public String removeReward()
+	{
+		System.out.println(this.getRMIBean().removeReward(rewardId));
+		return SUCCESS;
+	}
+
+	public String addReward()
+	{
+		this.getRMIBean().addReward(projectId, levelId, description, value);
+		return SUCCESS;
+	}
+	
+	/*--------------------------------GETTERS AND SETTERS---------------------------------------------------*/
 	
 	private RMIBean getRMIBean() {
 		if(!this.session.containsKey("rmiBean"))
@@ -65,6 +93,54 @@ public class RewardsAction extends ActionSupport implements SessionAware{
 
 	public void setRewardId(int rewardId) {
 		this.rewardId = rewardId;
+	}
+
+	public int getPledgeId() {
+		return pledgeId;
+	}
+
+	public void setPledgeId(int pledgeId) {
+		this.pledgeId = pledgeId;
+	}
+
+	public String getRecepientEmail() {
+		return recepientEmail;
+	}
+
+	public void setRecepientEmail(String recepientEmail) {
+		this.recepientEmail = recepientEmail;
+	}
+
+	public int getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(int projectId) {
+		this.projectId = projectId;
+	}
+
+	public int getLevelId() {
+		return levelId;
+	}
+
+	public void setLevelId(int levelId) {
+		this.levelId = levelId;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getValue() {
+		return value;
+	}
+
+	public void setValue(int value) {
+		this.value = value;
 	}
 	
 

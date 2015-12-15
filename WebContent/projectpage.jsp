@@ -17,49 +17,90 @@
 <body>
 	<div class="container">
 		<!-- Header -->
-		<div class="row">
-			<nav class="navbar navbar-inverse col-md-12">
-			<div class="col-md-8">
-				<ul class="nav navbar-nav">
-					<li class="active"><a class="navbar-brand" href="#">FundStarter</a>
-					</li>
-				</ul>
-			</div>
-			<div class="col-md-2">
-				<ul class="nav navbar-nav">
-					<li><a href="myAccount.action">My Account</a></li>
-				</ul>
-			</div>
-			<div class="col-md-2">
-				<ul class="nav navbar-nav">
-					<li><a href="#">Messages</a></li>
-				</ul>
-			</div>
-			</nav>
+		<nav class="navbar navbar-inverse col-md-12">
+		<div class="col-md-8">
+			<ul class="nav navbar-nav">
+				<li class="active"><a class="navbar-brand" href="main.action">FundStarter</a>
+				</li>
+			</ul>
 		</div>
-			<s:iterator value="activeRewards">
-					<div class="col-md-4">
-						<div class="thumbnail">
-							<div class="caption">
-									<s:property value="description" />
-									(<s:property value="value" />
-									$)
-									
-									<!-- <a href="<s:url action="pledge"/>?rewardId=${rewardId}" class="">Pledge</a> -->
-									
-									<s:form action="makePledge" method="post">
-										<s:hidden name="rewardId" />
-										<s:submit value="Pledge"/>
-									</s:form>
-									<br>
-									
-							</div>
-						</div>
-					</div>
-				
-			</s:iterator>
-		<c:out value="${project.moneyRaised}" />$ / <c:out value="${project.objective}" />$ 
-		
+		<div class="col-md-2">
+			<ul class="nav navbar-nav">
+				<li><a href="myAccount.action">My Account</a></li>
+			</ul>
+		</div>
+		<div class="col-md-2">
+			<ul class="nav navbar-nav">
+				<li><a href="#">Messages</a></li>
+			</ul>
+		</div>
+		</nav>
+
+		<div>
+			<h1>
+				<s:property value="project.projectName" />
+			</h1>
+			<br>
+			<h4>
+				<s:property value="project.projectDescription" />
+			</h4>
+			<h5>
+				Fund raiser will end in <s:property value="project.dateEnd"/> 
+			</h5>
+			<br>
+			<div class="progress">
+
+				<s:property value="project.moneyRaised" />
+				$ /
+				<s:property value="project.objective" />
+				$
+				<div class="progress-bar" role="progressbar" aria-valuenow="60"
+					aria-valuemin="0" aria-valuemax="100"
+					style="width: <s:property value="project.percentageComplete"/>%; ">
+				</div>
+			</div>
+
+		</div>
+
+		<hr>
+		<h3>Available Rewards</h3>
+		<s:iterator value="activeRewards">
+			<div class="thumbnail">
+				<div class="caption">
+					<s:property value="description" />
+					(
+					<s:property value="value" />
+					$)
+
+					<!-- <a href="<s:url action="pledge"/>?rewardId=${rewardId}" class="">Pledge</a> -->
+
+					<s:form action="makePledge" method="post">
+						<s:hidden name="rewardId" />
+						<s:submit value="Pledge" />
+					</s:form>
+
+				</div>
+			</div>
+
+		</s:iterator>
+
+		<hr>
+		<h3>Extra Reward Levels</h3>
+		<s:iterator value="extraLevels">
+			<div class="thumbnail">
+				<div class="caption">
+					<h4>
+						<s:property value="key.objective" />
+					</h4>
+					<s:iterator value="value">
+						<s:property value="description" />
+					(
+					<s:property value="value" />
+					$) <br>
+					</s:iterator>
+				</div>
+			</div>
+		</s:iterator>
 	</div>
 </body>
 </html>
