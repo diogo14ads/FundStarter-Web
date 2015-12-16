@@ -11,8 +11,8 @@ import com.opensymphony.xwork2.ActionSupport;
 import model.Project;
 import model.RMIBean;
 import model.Reward;
+import model.ChatMessage;
 import model.Level;
-import model.MyReward;
 
 public class ProjectPageAction extends ActionSupport implements SessionAware {
 	
@@ -24,6 +24,11 @@ public class ProjectPageAction extends ActionSupport implements SessionAware {
 	private Project project;
 	private ArrayList<Reward> activeRewards;
 	private Map<String,Object> session;
+	private ArrayList<ChatMessage> messages;
+	
+	private String sendMessage;
+	
+	
 	
 	private HashMap<Level, ArrayList<Reward>> extraLevels;
 
@@ -32,7 +37,14 @@ public class ProjectPageAction extends ActionSupport implements SessionAware {
 		activeRewards = this.getRMIBean().getActiveRewards(projectId);
 		project = this.getRMIBean().getProject(projectId);
 		extraLevels = this.getRMIBean().getExtraLevels(projectId);
+		messages = this.getRMIBean().getChatMessages(projectId, (String) this.session.get("email"));
 		return INPUT;
+	}
+	
+	public String sendMessage()
+	{
+		this.getRMIBean().sendMessagetoProject((String) this.session.get("email"), projectId, sendMessage);
+		return SUCCESS;
 	}
 	
 	private RMIBean getRMIBean() {
@@ -81,6 +93,22 @@ public class ProjectPageAction extends ActionSupport implements SessionAware {
 
 	public void setExtraLevels(HashMap<Level, ArrayList<Reward>> extraLevels) {
 		this.extraLevels = extraLevels;
+	}
+
+	public ArrayList<ChatMessage> getMessages() {
+		return messages;
+	}
+
+	public void setMessages(ArrayList<ChatMessage> messages) {
+		this.messages = messages;
+	}
+
+	public String getSendMessage() {
+		return sendMessage;
+	}
+
+	public void setSendMessage(String sendMessage) {
+		this.sendMessage = sendMessage;
 	}
 
 

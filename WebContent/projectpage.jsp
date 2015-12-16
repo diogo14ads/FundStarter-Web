@@ -45,7 +45,8 @@
 				<s:property value="project.projectDescription" />
 			</h4>
 			<h5>
-				Fund raiser will end in <s:property value="project.dateEnd"/> 
+				Fund raiser will end in
+				<s:property value="project.dateEnd" />
 			</h5>
 			<br>
 			<div class="progress">
@@ -101,6 +102,25 @@
 				</div>
 			</div>
 		</s:iterator>
+		<hr>
+		<h3>Chat</h3>
+		<div class="thumbnail">
+			<div class="caption">
+				<s:iterator value="messages">
+					<div class="thumbnail">
+						<div class="caption">
+							<s:property value="messageText" />
+						</div>
+					</div>
+				</s:iterator>
+				<hr>
+				<s:form action="sendMessage" method="post">
+					<s:textfield name="sendMessage"> Write Message:</s:textfield>
+					<s:hidden name="projectId" />
+					<s:submit key="Send Message"/>
+				</s:form>
+			</div>
+		</div>
 	</div>
 </body>
 </html>

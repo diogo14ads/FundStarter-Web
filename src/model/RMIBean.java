@@ -102,7 +102,7 @@ public class RMIBean {
 	}
 	
 	
-	//podia criar esta função no servidor, mas não quero mexer no código do projecto anterior
+	//podia criar esta função no servidor, mas não quero mexer muito no código do projecto anterior
 	public Project getProject(int projectId)
 	{
 		ArrayList<Project> list = getCurrentProjects();
@@ -222,6 +222,45 @@ public class RMIBean {
 		}
 	}
 	
+
+
+	//podia criar esta função no servidor, mas não quero mexer muito no código do projecto anterior
+	public ArrayList<ChatMessage> getChatMessages(int projectId, String email) {
+		ArrayList<ChatMessage> aux;
+		try {
+			System.out.println("user: "+email);
+			aux = toChatMessageArraylist(this.server.getMyMessages(email));
+			for(int i = 0; i< aux.size() ; i++)
+			{
+				if(aux.get(i).getIdProject() != projectId)
+					aux.remove(i);
+			}
+			return aux;
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+		
+	}
+	
+	private ArrayList<ChatMessage> toChatMessageArraylist(ArrayList<DatabaseRow> list) {
+		ArrayList<ChatMessage> newList = new ArrayList<ChatMessage>();
+		TypeConverter aux;
+		
+		for(DatabaseRow row : list)
+		{
+			aux = new TypeConverter(row.getColumns());
+			newList.add(aux.toChatMessage());
+			System.out.println(aux.toChatMessage().toString());
+			
+		}
+		
+		return newList;
+		
+	}
+
+
 	private ArrayList<Level> toLevelArraylist(ArrayList<DatabaseRow> list) {
 		ArrayList<Level> newList = new ArrayList<Level>();
 		TypeConverter aux;
@@ -388,6 +427,44 @@ public class RMIBean {
 		
 		return map;
 	}
+
+
+	public boolean sendMessagetoProject(String email, int projectId, String sendMessage) {
+		try {
+			return this.server.sendMessageProject(projectId, email, sendMessage);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
+		
+	}
 	
+	public boolean sendMessageToUser(String email, int projectId, String sendMessage) {
+		//ver se é o admin ou o user
+		try {
+			ArrayList<Project> projects = toProjectArraylist(this.server.myProjectsList(email));
+			
+			for(Project proj : projects)
+			{
+				if(projectId == proj.getProjectId())
+				{
+					sendMessage = proj.getProjectName() +" : "+ sendMessage;
+					return this.server.sendMessageUser(projectId, email, sendMessage);
+				}
+			}
+			
+
+			sendMessage = email +" : "+ sendMessage;
+			return this.server.sendMessageProject(projectId, email, sendMessage);
+			
+		} catch (RemoteException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+			return false;
+		}
+		
+	}
+
 	
 }

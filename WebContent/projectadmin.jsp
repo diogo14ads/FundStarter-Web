@@ -114,6 +114,16 @@
 			<s:submit key="Add Reward" />
 		</s:form>
 		
+		<hr>
+		
+		<h3>Your Messages</h3>
+		<select name="levelId">
+			<c:forEach items="${rmiBean.getProjectLevels(projectId)}" var="level">
+
+				<option value="${level.levelId}">${level.objective}</option>
+			</c:forEach>
+		</select>
+
 	</div>
 </body>
 </html>

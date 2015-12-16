@@ -98,8 +98,13 @@
 		<action name="removeReward" class="action.RewardsAction" method="removeReward">
 			<result name="success" type="redirectAction">/myAccount</result>
 		</action>
+		
 		<action name="addReward" class="action.RewardsAction" method="addReward">
 			<result name="success" type="redirectAction">/myAccount</result>
+		</action>
+		
+		<action name="sendMessage" class="action.ProjectPageAction" method="sendMessage">
+			<result name="success" type="redirectAction">/main</result>
 		</action>
 	
 	</package>

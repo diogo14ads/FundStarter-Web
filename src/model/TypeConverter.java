@@ -84,6 +84,18 @@ public class TypeConverter extends DatabaseRow {
 		
 	}
 	
+	public ChatMessage toChatMessage()
+	{
+		ChatMessage msg = new ChatMessage();
+		msg.setMessageText(super.getColumns().get(0));
+		msg.setMessageDate(super.getColumns().get(1));
+		msg.setMessageId(Integer.parseInt(super.getColumns().get(2)));
+		msg.setEmail(super.getColumns().get(3));
+		msg.setIdProject(Integer.parseInt(super.getColumns().get(4)));
+		
+		return msg;
+	}
+	
 	//só para debug, para ver o que está em cada um dos elementos do arraylist
 	public void printColumns()
 	{
