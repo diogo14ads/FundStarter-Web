@@ -13,9 +13,115 @@
 <link rel="stylesheet" type="text/css"
 	href="bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="bootstrap/css/style.css">
+<script type="text/javascript">
+	var websocket = null;
+
+	window.onload = function() { // URI = ws://10.16.0.165:8080/WebSocket/ws
+		connect('ws://' + window.location.host + '/FundStarter-Web/websockets');
+		document.getElementById("title").focus();
+	}
+
+	function connect(host) { // connect to the host websocket
+		if ('WebSocket' in window)
+			websocket = new WebSocket(host);
+		else if ('MozWebSocket' in window)
+			websocket = new MozWebSocket(host);
+		else {
+			writeToHistory('Get a real browser which supports WebSocket.');
+			return;
+		}
+
+		websocket.onopen = onOpen; // set the event listeners below
+		websocket.onclose = onClose;
+		websocket.onmessage = onMessage;
+		websocket.onerror = onError;
+	}
+
+	function onOpen(event) {
+		writeToPage('Connected to ' + window.location.host + '.');
+		document.getElementById('makePledge').onsubmit = function() {
+				//doSend(); // call doSend() on enter key
+				websocket.send("u "+document.getElementById('makePledge').children[0].value);
+		};
+	}
+
+	function onClose(event) {
+		writeToHistory('WebSocket closed.');
+		document.getElementById('title').onkeydown = null;
+	}
+
+	function onMessage(message) { // print the received message
+		msg = message.data;
+		if (msg.split(" ").length == 3)
+			writeToHistory(message.data);
+		else
+			updatePercentage(message.data)
+	}
+
+	function onError(event) {
+		writeToHistory('WebSocket error (' + event.data + ').');
+		document.getElementById('title').onkeydown = null;
+	}
+
+	function doSend() {
+		var message = document.getElementById('makePledge').children[0].name;
+		if (message != '')
+			websocket.send(message); // send the message
+		document.getElementById('makePledge').children[0].name = '';
+	}
+	
+	 function writeToPage(text) {
+         var history = document.getElementById('title');
+         var line = document.createElement('p');
+         line.style.wordWrap = 'break-word';
+         line.innerHTML = text;
+         history.appendChild(line);
+         history.scrollTop = history.scrollHeight;
+     }
+
+	function writeToHistory(text) {
+		var list = text.split(" ");
+		var title = document.getElementById('moneyRaised' + list[0]);
+		var line = document.createElement('p');
+		line.style.wordWrap = 'break-word';
+		line.innerHTML = "Raised " + list[1] + " out of " + list[2] + ".";
+		title.appendChild(line);
+		title.scrollTop = title.scrollHeight;
+	}
+
+	function updatePercentage(text) {
+		var list = text.split(" ");
+		var title = document.getElementById('progressBar' + list[0]);
+		var line = document.createElement('c:set');
+		line.setAttribute("var", "percent")
+		line.setAttribute("value", "75");
+		title.insertBefore(line, title.children[0]);
+		title.scrollTop = title.scrollHeight;
+
+	}
+
+	//NEW FROM WEB
+	function addRow() {
+		var div = document.createElement('div');
+
+		div.className = 'row';
+
+		div.innerHTML = '<input type="text" name="name" value="" />\
+	        <input type="text" name="value" value="" />\
+	        <label> <input type="checkbox" name="check" value="1" /> Checked? </label>\
+	        <input type="button" value="-" onclick="removeRow(this)">';
+
+		document.getElementById('content').appendChild(div);
+	}
+
+	function removeRow(input) {
+		document.getElementById('content').removeChild(input.parentNode);
+	}
+</script>
 </head>
 <body>
 	<div class="container">
+	<div id="title"></div>
 		<!-- Header -->
 		<nav class="navbar navbar-inverse col-md-12">
 		<div class="col-md-8">
@@ -75,7 +181,7 @@
 
 					<!-- <a href="<s:url action="pledge"/>?rewardId=${rewardId}" class="">Pledge</a> -->
 
-					<s:form action="makePledge" method="post">
+					<s:form action="makePledge" id="makePledge" method="post">
 						<s:hidden name="rewardId" />
 						<s:submit value="Pledge" />
 					</s:form>
@@ -117,7 +223,7 @@
 				<s:form action="sendMessage" method="post">
 					<s:textfield name="sendMessage"> Write Message:</s:textfield>
 					<s:hidden name="projectId" />
-					<s:submit key="Send Message"/>
+					<s:submit key="Send Message" />
 				</s:form>
 			</div>
 		</div>

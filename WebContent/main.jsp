@@ -13,8 +13,109 @@
 <link rel="stylesheet" type="text/css"
 	href="bootstrap/css/bootstrap.css">
 <link rel="stylesheet" type="text/css" href="bootstrap/css/style.css">
+
+<script type="text/javascript">
+	var websocket = null;
+
+	window.onload = function() { // URI = ws://10.16.0.165:8080/WebSocket/ws
+		connect('ws://' + window.location.host + '/FundStarter-Web/websockets');
+        document.getElementById("title").focus();
+	}
+
+	function connect(host) { // connect to the host websocket
+		if ('WebSocket' in window)
+			websocket = new WebSocket(host);
+		else if ('MozWebSocket' in window)
+			websocket = new MozWebSocket(host);
+		else {
+			writeToHistory('Get a real browser which supports WebSocket.');
+			return;
+		}
+
+		websocket.onopen = onOpen; // set the event listeners below
+		websocket.onclose = onClose;
+		websocket.onmessage = onMessage;
+		websocket.onerror = onError;
+	}
+
+	function onOpen(event) {
+		writeToHistory('Connected to ' + window.location.host + '.');
+		document.getElementById('title').onkeydown = function(key) {
+			if (key.keyCode == 13)
+				doSend(); // call doSend() on enter key
+		};
+	}
+
+	function onClose(event) {
+		writeToHistory('WebSocket closed.');
+		document.getElementById('title').onkeydown = null;
+	}
+
+	function onMessage(message) { // print the received message
+		msg = message.data;
+		if(msg.split(" ").length==3)
+			writeToHistory(message.data);
+		else
+			updatePercentage(message.data)
+	}
+
+	function onError(event) {
+		writeToHistory('WebSocket error (' + event.data + ').');
+		document.getElementById('title').onkeydown = null;
+	}
+
+	function doSend() {
+		var message = document.getElementById('chat').value;
+		if (message != '')
+			websocket.send(message); // send the message
+		document.getElementById('title').value = '';
+	}
+
+	function writeToHistory(text) {
+		var list = text.split(" ");
+		var title = document.getElementById('moneyRaised'+list[0]);
+		title.innerHTML = "";
+		var line = document.createElement('p');
+		line.style.wordWrap = 'break-word';
+		line.innerHTML = "Raised "+list[1]+" out of "+list[2]+".";
+		title.appendChild(line);
+		title.scrollTop = title.scrollHeight;
+	}
+	
+	function updatePercentage(text){
+		var list = text.split(" ");
+		var title = document.getElementById('progressBar'+list[0]);
+		var line = document.createElement('c:set');
+		line.setAttribute("var","percent")
+		line.setAttribute("value","75");
+		title.insertBefore(line, title.children[0]);
+		title.scrollTop = title.scrollHeight;
+		
+		
+	}
+	
+	//NEW FROM WEB
+	function addRow() {
+	    var div = document.createElement('div');
+
+	    div.className = 'row';
+
+	    div.innerHTML = '<input type="text" name="name" value="" />\
+	        <input type="text" name="value" value="" />\
+	        <label> <input type="checkbox" name="check" value="1" /> Checked? </label>\
+	        <input type="button" value="-" onclick="removeRow(this)">';
+
+	     document.getElementById('content').appendChild(div);
+	}
+
+	function removeRow(input) {
+	    document.getElementById('content').removeChild( input.parentNode );
+	}
+</script>
+
 </head>
 <body>
+	<noscript>JavaScript must be enabled for WebSockets to work.</noscript>
 	<div class="container">
 		<!-- Header -->
 		<div class="row">
@@ -58,12 +159,48 @@
 -->
 
 		<div class="row">
+			<h3 class="page-header" id="title">Project WebSockets</h3>
+			<c:set var="currentProjects" value="${rmiBean.currentProjects}" />
+			<c:forEach items="${currentProjects}" var="current">
+
+				<div class="col-md-4">
+					<div class="thumbnail">
+						<a
+							href="<s:url action="projectPage"/>?projectId=${current.projectId}"
+							class=""> <img src="http://unsplash.it/300/300?random"
+							alt="Imagem">
+							<div class="caption">
+								<h3>
+									<c:out value="${current.projectName}" />
+								</h3>
+								<p>
+									Objective:
+									<c:out value="${current.objective}" />
+								</p>
+								<p id="moneyRaised${current.projectId}"> </p> <!-- Valor adicionado pelo websocket -->
+								<div class="progress" id="progressBar${current.projectId}">
+									<c:set var="percent" value="${current.percentageComplete}" />
+									
+									<div class="progress-bar" role="progressbar" aria-valuenow="60"
+										aria-valuemin="0" aria-valuemax="100"
+										style="width: ${percent}" />%; " ></div>
+								</div>
+							</div>
+						</a>
+					</div>
+				</div>
+			</c:forEach>
+		</div>
+
+		<div class="row">
 			<h3 class="page-header">Current Projects</h3>
 			<c:forEach items="${rmiBean.currentProjects}" var="current">
 
 				<div class="col-md-4">
 					<div class="thumbnail">
-						<a href="<s:url action="projectPage"/>?projectId=${current.projectId}" class=""> <img src="http://unsplash.it/300/300?random"
+						<a
+							href="<s:url action="projectPage"/>?projectId=${current.projectId}"
+							class=""> <img src="http://unsplash.it/300/300?random"
 							alt="Imagem">
 							<div class="caption">
 								<h3>
@@ -98,8 +235,8 @@
 
 				<div class="col-md-4">
 					<div class="thumbnail">
-						<a href="projectPage.action?project=${current}" class=""> <img src="http://lorempixel.com/300/300/technics"
-							alt="Imagem">
+						<a href="projectPage.action?project=${current}" class=""> <img
+							src="http://lorempixel.com/300/300/technics" alt="Imagem">
 							<div class="caption">
 								<h3>
 									<c:out value="${current.projectName}" />
