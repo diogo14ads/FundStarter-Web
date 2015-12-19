@@ -1,5 +1,7 @@
 package action;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,6 +13,7 @@ import com.opensymphony.xwork2.ActionSupport;
 import model.Project;
 import model.RMIBean;
 import model.Reward;
+import websockets.WebSocketClientEndPoint;
 import model.ChatMessage;
 import model.Level;
 
@@ -43,8 +46,22 @@ public class ProjectPageAction extends ActionSupport implements SessionAware {
 	
 	public String sendMessage()
 	{
-		this.getRMIBean().sendMessagetoProject((String) this.session.get("email"), projectId, sendMessage);
-		return SUCCESS;
+		if(this.getRMIBean().sendMessagetoProject((String) this.session.get("email"), projectId, sendMessage))
+		{
+
+			try {
+				final WebSocketClientEndPoint clientEndPoint = new WebSocketClientEndPoint(new URI("ws://localhost:8080/FundStarter-Web/websockets"));
+
+				clientEndPoint.sendMessage("notify "+projectId+" You Have a new Message from user "+((String) this.session.get("email"))+".");
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+
+			return SUCCESS;
+		}
+		else
+			return ERROR;
 	}
 	
 	private RMIBean getRMIBean() {
