@@ -53,10 +53,12 @@
 
 	function onMessage(message) { // print the received message
 		msg = message.data;
-		if(msg.split(" ").length==3)
+	
+		if(msg.split(" ")[0] == "notify")
+			writeToNotification(message.data);
+		else if(msg.split(" ").length==3)
 			writeToHistory(message.data);
-		else
-			updatePercentage(message.data)
+		
 	}
 
 	function onError(event) {
@@ -82,13 +84,12 @@
 		title.scrollTop = title.scrollHeight;
 	}
 	
-	function updatePercentage(text){
-		var list = text.split(" ");
-		var title = document.getElementById('progressBar'+list[0]);
-		var line = document.createElement('c:set');
-		line.setAttribute("var","percent")
-		line.setAttribute("value","75");
-		title.insertBefore(line, title.children[0]);
+	function writeToNotification(text){
+		var title = document.getElementById("notify");
+		var line = document.createElement('p');
+		line.style.wordWrap = 'break-word';
+		line.innerHTML = text.slice(7);
+		title.appendChild(line);
 		title.scrollTop = title.scrollHeight;
 		
 		
@@ -116,6 +117,7 @@
 </head>
 <body>
 	<noscript>JavaScript must be enabled for WebSockets to work.</noscript>
+	
 	<div class="container">
 		<!-- Header -->
 		<div class="row">
@@ -157,7 +159,9 @@
 			</div>
 		</div>
 -->
-
+		<h3>Notifications</h3>
+		<div id="notify"></div>
+		
 		<div class="row">
 			<h3 class="page-header" id="title">Project WebSockets</h3>
 			<c:set var="currentProjects" value="${rmiBean.currentProjects}" />
@@ -177,13 +181,13 @@
 									Objective:
 									<c:out value="${current.objective}" />
 								</p>
-								<p id="moneyRaised${current.projectId}"> </p> <!-- Valor adicionado pelo websocket -->
+								<p id="moneyRaised${current.projectId}"></p>
+								<!-- Valor adicionado pelo websocket -->
 								<div class="progress" id="progressBar${current.projectId}">
-									<c:set var="percent" value="${current.percentageComplete}" />
-									
+
 									<div class="progress-bar" role="progressbar" aria-valuenow="60"
 										aria-valuemin="0" aria-valuemax="100"
-										style="width: ${percent}" />%; " ></div>
+										style="width: <c:out value="${current.percentageComplete}" />%; "></div>
 								</div>
 							</div>
 						</a>

@@ -39,10 +39,7 @@
 
 	function onOpen(event) {
 		writeToPage('Connected to ' + window.location.host + '.');
-		document.getElementById('makePledge').onsubmit = function() {
-				//doSend(); // call doSend() on enter key
-				websocket.send("u "+document.getElementById('makePledge').children[0].value);
-		};
+		
 	}
 
 	function onClose(event) {
@@ -79,15 +76,16 @@
          history.scrollTop = history.scrollHeight;
      }
 
-	function writeToHistory(text) {
-		var list = text.split(" ");
-		var title = document.getElementById('moneyRaised' + list[0]);
-		var line = document.createElement('p');
-		line.style.wordWrap = 'break-word';
-		line.innerHTML = "Raised " + list[1] + " out of " + list[2] + ".";
-		title.appendChild(line);
-		title.scrollTop = title.scrollHeight;
-	}
+	 function writeToHistory(text) {
+			var list = text.split(" ");
+			var title = document.getElementById('progress'+list[0]);
+			title.innerHTML = "";
+			var line = document.createElement('p');
+			line.style.wordWrap = 'break-word';
+			line.innerHTML ="Raised: "+list[1]+" $ / "+list[2]+" $";
+			title.appendChild(line);
+			title.scrollTop = title.scrollHeight;
+		}
 
 	function updatePercentage(text) {
 		var list = text.split(" ");
@@ -155,12 +153,9 @@
 				<s:property value="project.dateEnd" />
 			</h5>
 			<br>
-			<div class="progress">
-
-				<s:property value="project.moneyRaised" />
-				$ /
-				<s:property value="project.objective" />
-				$
+			<div id=progress<s:property value="project.projectId" />></div>
+			
+			<div class="progress" >
 				<div class="progress-bar" role="progressbar" aria-valuenow="60"
 					aria-valuemin="0" aria-valuemax="100"
 					style="width: <s:property value="project.percentageComplete"/>%; ">
@@ -182,6 +177,7 @@
 					<!-- <a href="<s:url action="pledge"/>?rewardId=${rewardId}" class="">Pledge</a> -->
 
 					<s:form action="makePledge" id="makePledge" method="post">
+						<s:hidden name="projectId" />
 						<s:hidden name="rewardId" />
 						<s:submit value="Pledge" />
 					</s:form>

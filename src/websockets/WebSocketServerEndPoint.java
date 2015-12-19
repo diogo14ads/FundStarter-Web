@@ -14,30 +14,35 @@ import javax.websocket.OnOpen;
 import javax.json.JsonObject;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EncodeException;
+import javax.websocket.EndpointConfig;
 import javax.websocket.OnClose;
 import javax.websocket.OnMessage;
 import javax.websocket.OnError;
 import javax.websocket.Session;
 
-@ServerEndpoint(value = "/websockets")
-public class MoneyRaisedWebSocketAnnotation {
+@ServerEndpoint(value = "/websockets", configurator = GetHttpSessionConfigurator.class)
+public class WebSocketServerEndPoint {
     private Session session;
+    private HttpSession httpSession;
     private RMIBean rmiBean;
-    private static final Set<MoneyRaisedWebSocketAnnotation> users = new CopyOnWriteArraySet<>();
+    private static final Set<WebSocketServerEndPoint> users = new CopyOnWriteArraySet<>();
 
-    public MoneyRaisedWebSocketAnnotation() {
+    public WebSocketServerEndPoint() {
     	
     }
     
     @OnOpen
-    public void start(Session session) {
+    public void start(Session session, EndpointConfig config) {
         this.session = session;
+    	//this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+        //this.rmiBean = (RMIBean) httpSession.getAttribute("rmiBean");
         this.rmiBean = new RMIBean();
+        //System.out.println((String) httpSession.getAttribute("email"));
         String message = "Current Projects com Websockets!";
         users.add(this);
         System.out.println(message);
         //sendMessageString(message);
-        sendCurrentProjects(this.rmiBean.getCurrentProjects());
+        sendCurrentProjectsOnLoad(this.rmiBean.getCurrentProjects());
         
     }
 
@@ -53,9 +58,15 @@ public class MoneyRaisedWebSocketAnnotation {
         // characters should be replaced with &lt; &gt; &quot; &amp;
     	//String reversedMessage = new StringBuffer(message).reverse().toString();
     	//sendMessage(value);
-    	if(message.charAt(0) == 'u')
+    	System.out.println("Recebi no websocket "+message);
+    	if(message.charAt(0) == 'p')
     	{
-    		sendCurrentProjects(this.rmiBean.getCurrentProjects());
+    		sendCurrentProjectsOnPledge(this.rmiBean.getCurrentProjects(),Integer.parseInt(message.split(" ")[1]));
+    	}
+    	else if((message.split(" ")[0]).equals("notify"))
+    	{
+    		System.out.println(message);
+    		sendNotification(message);
     	}
     }
     
@@ -67,7 +78,7 @@ public class MoneyRaisedWebSocketAnnotation {
     private void sendMessageString(String text) {
     	// uses *this* object's session to call sendText()
     	try {
-			for (MoneyRaisedWebSocketAnnotation webSocketAnnotation : users) {
+			for (WebSocketServerEndPoint webSocketAnnotation : users) {
 				webSocketAnnotation.session.getBasicRemote().sendText(text);	
 			}
 			
@@ -84,7 +95,7 @@ public class MoneyRaisedWebSocketAnnotation {
     private void sendMessage(int value) {
     	// uses *this* object's session to call sendText()
     	try {
-			for (MoneyRaisedWebSocketAnnotation webSocketAnnotation : users) {
+			for (WebSocketServerEndPoint webSocketAnnotation : users) {
 				webSocketAnnotation.session.getBasicRemote().sendText(Integer.toString(value));	
 			}
 			
@@ -98,12 +109,12 @@ public class MoneyRaisedWebSocketAnnotation {
 		}
     }
     
-    private void sendCurrentProjects(ArrayList<Project> list)
+    private void sendCurrentProjectsOnLoad(ArrayList<Project> list)
     {
     	String aux;
     	// uses *this* object's session to call sendText()
     	try {
-			for (MoneyRaisedWebSocketAnnotation webSocketAnnotation : users) {
+			for (WebSocketServerEndPoint webSocketAnnotation : users) {
 				for(Project proj: list)
 				{
 					aux = proj.getProjectId()+" "+proj.getMoneyRaised()+" "+proj.getObjective();
@@ -119,5 +130,50 @@ public class MoneyRaisedWebSocketAnnotation {
 				e1.printStackTrace();
 			}
 		}
+    }
+    
+    private void sendCurrentProjectsOnPledge(ArrayList<Project> list, int projectId)
+    {
+    	String aux;
+    	// uses *this* object's session to call sendText()
+    	try {
+			for (WebSocketServerEndPoint webSocketAnnotation : users) {
+				for(Project proj: list)
+				{
+					if(projectId==proj.getProjectId())
+					{
+						aux = proj.getProjectId()+" "+proj.getMoneyRaised()+" "+proj.getObjective();
+						webSocketAnnotation.session.getBasicRemote().sendText(aux);
+					}
+				}
+			}
+			
+		} catch (IOException e) {
+			// clean up once the WebSocket connection is closed
+			try {
+				this.session.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
+		}
+    }
+
+    private void sendNotification(String text)
+    {
+    	// uses *this* object's session to call sendText()
+    	try {
+    		for (WebSocketServerEndPoint webSocketAnnotation : users) {
+    			//System.out.println("vou mandar: "+ text + " para "+webSocketAnnotation);
+    			webSocketAnnotation.session.getBasicRemote().sendText(text);
+    		}
+
+    	} catch (IOException e) {
+    		// clean up once the WebSocket connection is closed
+    		try {
+    			this.session.close();
+    		} catch (IOException e1) {
+    			e1.printStackTrace();
+    		}
+    	}
     }
 }

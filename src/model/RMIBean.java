@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Properties;
 
+import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
+
 import common.DatabaseRow;
 import common.RMIInterface;
 
@@ -464,6 +466,17 @@ public class RMIBean {
 			return false;
 		}
 		
+	}
+	
+	public ArrayList<String> getAdministrators(int projectId)
+	{
+		try {
+			return this.server.getAdministrators(projectId);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	

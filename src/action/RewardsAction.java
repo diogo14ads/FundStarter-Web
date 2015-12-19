@@ -1,5 +1,10 @@
 package action;
 
+import java.net.URI;
+import java.net.URISyntaxException;
+
+import javax.servlet.http.HttpSession;
+import javax.websocket.*;
 import java.util.ArrayList;
 import java.util.Map;
 
@@ -8,8 +13,10 @@ import org.apache.struts2.interceptor.SessionAware;
 import com.opensymphony.xwork2.ActionSupport;
 
 import model.RMIBean;
+import websockets.WebSocketClientEndPoint;
 import model.MyReward;
 
+@ClientEndpoint
 public class RewardsAction extends ActionSupport implements SessionAware{
 
 	/**
@@ -17,6 +24,7 @@ public class RewardsAction extends ActionSupport implements SessionAware{
 	 */
 	private static final long serialVersionUID = -3724990176677863785L;
 	private Map<String,Object> session;
+	private HttpSession httpSession;
 	private ArrayList<MyReward> myRewards;
 	
 	private int rewardId;
@@ -38,7 +46,17 @@ public class RewardsAction extends ActionSupport implements SessionAware{
 	public String makePledge()
 	{
 		if(this.getRMIBean().pledge(rewardId, (String) this.session.get("email")))
+		{
+			try {
+				final WebSocketClientEndPoint clientEndPoint = new WebSocketClientEndPoint(new URI("ws://localhost:8080/FundStarter-Web/websockets"));
+
+				clientEndPoint.sendMessage("notify "+projectId+" Congratulations, someone has made a pledge to your project!");
+			} catch (URISyntaxException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			return SUCCESS;
+		}
 		else
 			return ERROR;
 	}
@@ -141,6 +159,14 @@ public class RewardsAction extends ActionSupport implements SessionAware{
 
 	public void setValue(int value) {
 		this.value = value;
+	}
+
+	public HttpSession getHttpSession() {
+		return httpSession;
+	}
+
+	public void setHttpSession(HttpSession httpSession) {
+		this.httpSession = httpSession;
 	}
 	
 
