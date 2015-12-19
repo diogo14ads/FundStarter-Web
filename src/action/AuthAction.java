@@ -43,7 +43,7 @@ public class AuthAction extends ActionSupport implements SessionAware {
 			return SUCCESS;
 		}
 		else
-			return INPUT;
+			return LOGIN;
 	}
 	
 

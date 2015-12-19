@@ -11,7 +11,7 @@
 	<constant name="struts.action.excludePattern" value="/websockets"/>
 	
 	
-	<package name="fundstarter" extends="struts-default">
+	<package name="fundstarter" namespace="/" extends="struts-default">
 		
 		<default-action-ref name="index" />
 		
@@ -22,41 +22,40 @@
 		<global-exception-mappings>
 			<exception-mapping exception="java.lang.Exception" result="error"/>
 		</global-exception-mappings>
-		
-		
+
 		<action name="index" class="action.ProjectsAction" method="execute">
-			<result>/index.jsp</result>
+			<result>home.jsp</result>
 		</action>
 		
 		<action name="register" class="action.AuthAction" method="registerAccount">
-			<result name="success" type="redirectAction">/main</result>
-			<result name="input">/register.jsp</result>
+			<result name="success" type="redirectAction">main</result>
+			<result name="input">register.jsp</result>
 		</action>
 		
 		<action name="login" class="action.AuthAction" method="login">
-			<result name="success" type="redirectAction">/main</result>
-			<result name="input" type="redirectAction">/index</result>
+			<result name="success" type="redirectAction">main</result>
+			<result name="input" type="redirectAction">index</result>
 		</action>
 		
 		<action name="main" class="action.ProjectsAction" method="execute">
-			<result>/main.jsp</result>
+			<result>main.jsp</result>
 		</action>
 		
 		<action name="myRewards" class="action.RewardsAction" method="execute">
-			<result>/myaccount.jsp</result>
+			<result>myaccount.jsp</result>
 		</action>
 		
 		<action name="checkBalance" class="action.BalanceAction" method="execute">
-			<result>/myaccount.jsp</result>
+			<result>myaccount.jsp</result>
 		</action>
 		
 		<action name="createProject" class="action.ProjectsAction" method="createProject">
-			<result name="success" type="redirectAction">/main</result>
-			<result name="input">/createproject.jsp</result>
+			<result name="success" type="redirectAction">main</result>
+			<result name="input">createproject.jsp</result>
 		</action>
 		
 		<action name="myAccount">
-			<result >/myaccount.jsp</result>
+			<result >myaccount.jsp</result>
 		</action>
 		
 		<action name="projectPage" class="action.ProjectPageAction" method="execute">
@@ -64,48 +63,48 @@
 		</action>
 		
 		<action name="makePledge" class="action.RewardsAction" method="makePledge">
-			<result name="success" type="redirectAction">/main</result>
-			<result name="input" type="redirectAction">/myAccount</result>
+			<result name="success" type="redirectAction">main</result>
+			<result name="input" type="redirectAction">myAccount</result>
 		</action>
 		
 		<action name="myProjects" class="action.ManageProjectAction" method="myProjects">
-			<result name="success">/chooseproject.jsp</result>
+			<result name="success">chooseproject.jsp</result>
 		</action>
 		
 		<action name="manageProject" class="action.ManageProjectAction" method="manage">
-			<result name="success">/projectadmin.jsp</result>
+			<result name="success">projectadmin.jsp</result>
 		</action>
 		
 		<action name="cancelProject" class="action.ManageProjectAction" method="cancelProject">
-			<result name="success" type="redirectAction">/main</result>
+			<result name="success" type="redirectAction">main</result>
 		</action>
 		
 		<action name="addLevel" class="action.ManageProjectAction" method="addRewardLevel">
-			<result name="success" type="redirectAction">/myAccount</result>
+			<result name="success" type="redirectAction">myAccount</result>
 		</action>
 		
 		<action name="removeLevel" class="action.ManageProjectAction" method="removeRewardLevel">
-			<result name="success" type="redirectAction">/myAccount</result>
+			<result name="success" type="redirectAction">myAccount</result>
 		</action>
 		
 		<action name="addAdministrator" class="action.ManageProjectAction" method="addAdministrator">
-			<result name="success" type="redirectAction">/myAccount</result>
+			<result name="success" type="redirectAction">myAccount</result>
 		</action>
 		
 		<action name="giveawayReward" class="action.RewardsAction" method="giveawayReward">
-			<result name="success" type="redirectAction">/myAccount</result>
+			<result name="success" type="redirectAction">myAccount</result>
 		</action>
 		
 		<action name="removeReward" class="action.RewardsAction" method="removeReward">
-			<result name="success" type="redirectAction">/myAccount</result>
+			<result name="success" type="redirectAction">myAccount</result>
 		</action>
 		
 		<action name="addReward" class="action.RewardsAction" method="addReward">
-			<result name="success" type="redirectAction">/myAccount</result>
+			<result name="success" type="redirectAction">myAccount</result>
 		</action>
 		
 		<action name="sendMessage" class="action.ProjectPageAction" method="sendMessage">
-			<result name="success" type="redirectAction">/main</result>
+			<result name="success" type="redirectAction">main</result>
 		</action>
 	
 	</package>

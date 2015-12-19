@@ -54,6 +54,7 @@ public class RewardsAction extends ActionSupport implements SessionAware{
 			} catch (URISyntaxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				return ERROR;
 			}
 			return SUCCESS;
 		}

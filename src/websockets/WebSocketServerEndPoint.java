@@ -175,7 +175,7 @@ public class WebSocketServerEndPoint {
     			{
     				if(webSocketAnnotation.httpSession != null && webSocketAnnotation.httpSession.getAttribute("email").equals(user))
     				{
-    	    			System.out.println("vou mandar: "+ text + " para "+webSocketAnnotation);
+    	    			System.out.println("vou mandar: "+ text + " para "+ webSocketAnnotation.httpSession.getAttribute("email"));
     	    			webSocketAnnotation.session.getBasicRemote().sendText(text);
     				}
     			}
