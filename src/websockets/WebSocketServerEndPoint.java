@@ -34,10 +34,16 @@ public class WebSocketServerEndPoint {
     @OnOpen
     public void start(Session session, EndpointConfig config) {
         this.session = session;
-    	//this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
-        //this.rmiBean = (RMIBean) httpSession.getAttribute("rmiBean");
-        this.rmiBean = new RMIBean();
-        //System.out.println((String) httpSession.getAttribute("email"));
+        if(config.getUserProperties().get(HttpSession.class.getName()) != null)
+        {
+	    	this.httpSession = (HttpSession) config.getUserProperties().get(HttpSession.class.getName());
+	        this.rmiBean = (RMIBean) httpSession.getAttribute("rmiBean");
+        }
+        else
+        {
+        	this.rmiBean = new RMIBean();
+        }
+        //this.rmiBean = new RMIBean();
         String message = "Current Projects com Websockets!";
         users.add(this);
         System.out.println(message);
@@ -161,10 +167,19 @@ public class WebSocketServerEndPoint {
     private void sendNotification(String text)
     {
     	// uses *this* object's session to call sendText()
+    	ArrayList<String> admins = rmiBean.getAdministrators(Integer.parseInt(text.split(" ")[1]));
+    	System.out.println(admins);
     	try {
     		for (WebSocketServerEndPoint webSocketAnnotation : users) {
-    			//System.out.println("vou mandar: "+ text + " para "+webSocketAnnotation);
-    			webSocketAnnotation.session.getBasicRemote().sendText(text);
+    			for(String user : admins)
+    			{
+    				if(webSocketAnnotation.httpSession != null && webSocketAnnotation.httpSession.getAttribute("email").equals(user))
+    				{
+    	    			System.out.println("vou mandar: "+ text + " para "+webSocketAnnotation);
+    	    			webSocketAnnotation.session.getBasicRemote().sendText(text);
+    				}
+    			}
+				
     		}
 
     	} catch (IOException e) {
