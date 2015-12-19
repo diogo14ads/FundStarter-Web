@@ -105,7 +105,7 @@
 
 				<div class="col-md-4">
 					<div class="thumbnail">
-						<a href="#" class=""> <img src="http://placecage.com/300/300"
+						<a href="<s:url action="projectDetails"/>?projectId=${current.projectId}" class=""> <img src="http://placecage.com/300/300"
 							alt="Imagem">
 							<div class="caption">
 								<h3>

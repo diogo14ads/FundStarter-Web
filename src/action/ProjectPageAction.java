@@ -41,6 +41,15 @@ public class ProjectPageAction extends ActionSupport implements SessionAware {
 		return INPUT;
 	}
 	
+	public String projectDetails()
+	{
+		activeRewards = this.getRMIBean().getActiveRewards(projectId);
+		project = this.getRMIBean().getProject(projectId);
+		extraLevels = this.getRMIBean().getExtraLevels(projectId);
+		return INPUT;
+	}
+	
+	
 	public String sendMessage()
 	{
 		this.getRMIBean().sendMessagetoProject((String) this.session.get("email"), projectId, sendMessage);
