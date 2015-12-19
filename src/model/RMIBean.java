@@ -55,7 +55,7 @@ public class RMIBean {
 		InputStream input = null;
 		try {
 			//TODO nao estava a encontrar o ficheiro, pus o caminho todo
-			input = new FileInputStream("/home/diogo/DEI1516/SD/FundStarter-Web/config.properties");
+			input = new FileInputStream("C:/Users/Hugo Marques/workspace/FundStarter-Web/config.properties");
 			prop.load(input);
 
 		} catch (IOException ex) {

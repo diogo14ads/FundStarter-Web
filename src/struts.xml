@@ -58,6 +58,10 @@
 			<result >myaccount.jsp</result>
 		</action>
 		
+		<action name="projectDetails" class="action.ProjectPageAction" method="projectDetails">
+			<result name="input">/projectdetails.jsp</result>
+		</action>
+		
 		<action name="projectPage" class="action.ProjectPageAction" method="execute">
 			<result name="input">/projectpage.jsp</result>
 		</action>
