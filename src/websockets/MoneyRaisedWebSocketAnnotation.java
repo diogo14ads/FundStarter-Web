@@ -11,7 +11,6 @@ import model.Project;
 import model.RMIBean;
 
 import javax.websocket.OnOpen;
-import javax.json.JsonObject;
 import javax.servlet.http.HttpSession;
 import javax.websocket.EncodeException;
 import javax.websocket.OnClose;

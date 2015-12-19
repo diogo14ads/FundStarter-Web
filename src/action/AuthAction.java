@@ -3,6 +3,9 @@ package action;
 import java.util.Map;
 
 import org.apache.struts2.interceptor.SessionAware;
+import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.TumblrApi;
+import org.scribe.oauth.OAuthService;
 
 import com.opensymphony.xwork2.ActionSupport;
 
@@ -17,6 +20,11 @@ public class AuthAction extends ActionSupport implements SessionAware {
 	private static final long serialVersionUID = -7477463623013154947L;
 
 	private User user;
+	OAuthService service = new ServiceBuilder()
+								.provider(TumblrApi.class)
+								.apiKey("3J4GufIued0fuFLsAJgT0r7JfsoC658n3BLHJD1YuIvTLD6Bh2")
+								.apiSecret("6zon24waCl9Xx4WvF71EfY5ZM1MPS4R5OBOknWGyw4CRuNPJfw")
+								.build();
 
 	private Map<String,Object> session;
 	
